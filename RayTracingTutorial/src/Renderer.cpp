@@ -43,10 +43,20 @@ uint32_t Renderer::PerPixel(glm::vec2 coord)
 	float b = 2.0f * glm::dot(rayOrigin, rayDir);
 	float c = glm::dot(rayOrigin, rayOrigin) - radius * radius;
 
-	float discr = b * b - 4.0f * a * c;
+	float sqrDiscr = b * b - 4.0f * a * c;
 
-	if (discr >= 0.0f)
-		return 0xffff00ff;
+	if (sqrDiscr >= 0.0f)
+	{
+		float discr = sqrtf(sqrDiscr);
+		float t1 = (-b + discr) / (2.0f * a);
+		float t2 = (-b - discr) / (2.0f * a);
 
-	return 0xff000000;
+		float t = fminf(t1, t2);
+
+		uint8_t brightness = (uint8_t)(powf(1.5f, 5.0f) / powf(t, 5.0f) * 255.0f);
+
+		return 0xff000000 | (brightness << 8) | brightness;
+	}
+
+	return 0xffff0000;
 }
