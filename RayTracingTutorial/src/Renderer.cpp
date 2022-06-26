@@ -37,6 +37,9 @@ uint32_t Renderer::PerPixel(glm::vec2 coord)
 	glm::vec3 rayOrigin(0.0f, 0.0f, 2.0f);
 	glm::vec3 rayDir(coord.x, coord.y, -1.0f);
 	float radius = 0.5f;
+	float lumninosity = 25.0f;
+
+
 	rayDir = glm::normalize(rayDir);
 
 	float a = glm::dot(rayDir, rayDir);
@@ -53,7 +56,7 @@ uint32_t Renderer::PerPixel(glm::vec2 coord)
 
 		float t = fminf(t1, t2);
 
-		uint8_t brightness = (uint8_t)(powf(1.5f, 5.0f) / powf(t, 5.0f) * 255.0f);
+		uint8_t brightness = (uint8_t)fminf(lumninosity / (4.0f * 3.14f * t * t) * 255.0f, 255.0f);
 
 		return 0xff000000 | (brightness << 8) | brightness;
 	}
