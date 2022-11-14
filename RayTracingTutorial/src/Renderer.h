@@ -2,12 +2,12 @@
 
 #include "Walnut/Image.h"
 
-#include <memory>
-#include <glm/glm.hpp>
-
 #include "Camera.h"
 #include "Ray.h"
 #include "Scene.h"
+
+#include <memory>
+#include <glm/glm.hpp>
 
 class Renderer
 {
